@@ -1,70 +1,106 @@
-# Getting Started with Create React App
+##GuideLine of how to contribute to this project for collaborators
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Clone the repository or pull the latest changes from the master branch
+- Create a new branch with a descriptive name of the feature you are working on
+- Make your changes and commit them with a descriptive message
+- Push your changes to your branch
+- Create a pull request to the master branch
+- Wait for the pull request to be reviewed and merged
+- Delete your branch after the pull request has been merged
+- Make sure to pull the latest changes from the master branch before creating a new branch
+- Make sure to test your changes before creating a pull request
+- Make sure to follow the coding style of the project
+- Make sure to write descriptive commit messages
+- Make sure to write descriptive pull request messages
+- Make sure to write descriptive branch names
 
-## Available Scripts
+## How to clone the repository for collaborators
 
-In the project directory, you can run:
+- Open the terminal
+- Change the current working directory to the location where you want the cloned directory
+- Type `git clone https://github.com/ANIL-BUDAMAKUNTLA/temp.git`
+- Press Enter to create a local clone of the repository
 
-### `npm start`
+## Get .env file form google space and place it in the root of the project
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## How to install the dependencies for collaborators
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Run the following command in the terminal
 
-### `npm test`
+- `npm install`
+- `npm start`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## How to pull the latest changes from the master branch for collaborators
 
-### `npm run build`
+- Open the terminal
+- Change the current working directory to your local project
+- Type `git pull origin master`
+- Press Enter to pull the latest changes from the master branch
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## How to create a new branch for collaborators
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Open the terminal
+- Change the current working directory to your local project
+- Type `git checkout -b branch-name`
+- Press Enter to create a new branch
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## How to make your changes and commit them with a descriptive message for collaborators
 
-### `npm run eject`
+- Open the terminal
+- Change the current working directory to your local project
+- Type `git add .`
+- Press Enter to stage all changes
+- Type `git commit -m "descriptive message"`
+- Press Enter to commit your changes with a descriptive message
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## How to push your changes to your branch for collaborators
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Open the terminal
+- Change the current working directory to your local project
+- Type `git push origin branch-name`
+- Press Enter to push your changes to your branch
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## How to create a pull request to the master branch for collaborators
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Open the web browser
+- Navigate to the repository
+- Click on the "Pull requests" tab
+- Click on the "New pull request" button
+- Select the master branch as the base branch
+- Select your branch as the compare branch
+- Click on the "Create pull request" button
+- Write a descriptive pull request message
+- Click on the "Create pull request" button
 
-## Learn More
+## How to wait for the pull request to be reviewed and merged for collaborators
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Wait for the pull request to be reviewed and merged by the repository owner
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## How to delete your branch after the pull request has been merged for collaborators
 
-### Code Splitting
+- Open the terminal
+- Change the current working directory to your local project
+- Type `git branch -d branch-name`
+- Press Enter to delete your branch
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## How to delete your branch after the pull request has been merged for collaborators in github
 
-### Analyzing the Bundle Size
+- Open the web browser
+- Navigate to the repository
+- Click on the "Branches" tab
+- Click on the "Delete branch" button next to your branch
+- Click on the "Delete branch" button to confirm
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## How to pull the latest changes from the master branch before creating a new branch for collaborators
 
-### Making a Progressive Web App
+- Open the terminal
+- Change the current working directory to your local project
+- Type `git pull origin master`
+- Press Enter to pull the latest changes from the master branch
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## How to move to other branch for collaborators (do not forget to commit your changes before moving to other branch)
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Open the terminal
+- Change the current working directory to your local project
+- Type `git checkout branch-name` ## branch-name is the name of the branch you want to move to
+- Press Enter to move to other branch
