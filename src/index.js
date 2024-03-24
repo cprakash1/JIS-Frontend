@@ -3,7 +3,10 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { GlobalProvider } from "./Context/GlobalState";
+import { Provider } from "react-redux";
+import store, { persistor } from "./Redux/store";
+import GlobalProvider from "./Context/GlobalState";
+import { PersistGate } from "redux-persist/integration/react";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,9 +16,13 @@ root.render(
         <Route
           path="*"
           element={
-            <GlobalProvider>
-              <App />
-            </GlobalProvider>
+            <PersistGate persistor={persistor}>
+              <Provider store={store}>
+                <GlobalProvider>
+                  <App />
+                </GlobalProvider>
+              </Provider>
+            </PersistGate>
           }
         />
       </Routes>

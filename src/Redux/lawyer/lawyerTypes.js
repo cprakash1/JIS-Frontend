@@ -1,0 +1,5 @@
+export const FETCH_LAWYER = "FETCH_LAWYER";
+export const UPDATE_LAWYER = "UPDATE_LAWYER";
+export const DELETE_LAWYER = "DELETE_LAWYER";
+export const ADD_LAWYER_PAYMENT = "ADD_LAWYER_PAYMENT";
+export const ADD_CASES_SEEN = "ADD_CASES_SEEN";
