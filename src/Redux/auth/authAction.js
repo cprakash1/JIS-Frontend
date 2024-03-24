@@ -23,14 +23,16 @@ export const login = (user) => {
       }
       console.log(getState());
       const userType = userTypeSelector(getState());
-      console.log(`http://127.0.0.1:3001/${userType}/login`);
-      const response = await fetch(`http://127.0.0.1:3001/${userType}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/${userType}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        }
+      );
       const data = await response.json();
       if (response.status === 200) {
         dispatch({

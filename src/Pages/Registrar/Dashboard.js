@@ -25,17 +25,64 @@ const Dashboard = () => {
     dispatch(fetchRegistrarAsync({ loginToken }));
   }, []);
 
-  return registrar.isFetched ? (
-    <div>
-      <h1>Dashboard</h1>
-      <h3>Name: {registrar?.name}</h3>
-      <h3>Email: {registrar?.email}</h3>
-      <h3>Phone: {registrar?.phone}</h3>
-      <h3>Address: {registrar?.address}</h3>
-      <h3>Court: {registrar?.court?.name}</h3>
-    </div>
-  ) : (
-    <div>Loading...</div>
+  return (
+    <>
+      <div className="head-title">
+        <div className="left">
+          <h1>Dashboard</h1>
+          <ul className="breadcrumb">
+            <li>
+              <a href="#">Registrar</a>
+            </li>
+            <li>
+              <i className="bx bx-chevron-right"></i>
+            </li>
+            <li>
+              <a className="active" href="#">
+                Dashboard
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="table-data">
+        <div className="order">
+          <div className="head">
+            <h3>INFO:</h3>
+          </div>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Name:</strong> {registrar?.name}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Email:</strong> {registrar?.email}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Phone:</strong> {registrar?.phone}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Address:</strong> {registrar?.address}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Court:</strong> {registrar?.court?.name}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>
   );
 };
 

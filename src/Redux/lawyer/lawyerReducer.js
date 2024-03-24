@@ -69,6 +69,7 @@ const lawyerReducer = (state = initialState, action) => {
       return {
         ...state,
         casesSeen: [...state.casesSeen, action.payload],
+        paymentLeft: state.paymentLeft + 800,
       };
     default:
       return state;

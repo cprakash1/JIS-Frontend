@@ -8,6 +8,8 @@ import RegisterCourt from "../../Pages/Registrar/RegisterCourt";
 import UpdateCourt from "../../Pages/Registrar/UpdateCourt";
 import RegisterCase from "../../Pages/Registrar/RegisterCase";
 import AssignDate from "../../Pages/Registrar/AssignDate";
+import AddSummery from "../../Pages/Registrar/AddSummery";
+import UpdateRegistrar from "../../Pages/Registrar/UpdateRegistrar";
 
 const RegistrarRoute = () => {
   return (
@@ -20,6 +22,8 @@ const RegistrarRoute = () => {
         <Route path="/update-court" element={<UpdateCourt />} />
         <Route path="/register-case" element={<RegisterCase />} />
         <Route path="/assign-date" element={<AssignDate />} />
+        <Route path="/add-summery" element={<AddSummery />} />
+        <Route path="/update" element={<UpdateRegistrar />} />
       </Route>
     </Routes>
   );

@@ -1,34 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { getAllCourt } from "../../Utils/MainUtils/getAllCourt";
-import "./Registration.css"; // Import CSS file for styling
-import { registerLawyer } from "../../Utils/RegistrarUtils/registerLawyer";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   isLoggedinSelector,
   loginTokenSelector,
   userTypeSelector,
 } from "../../Redux/auth/authSelector";
+import { registrarSelector } from "../../Redux/registrar/registrarSelector";
+import { getAllCourt } from "../../Utils/MainUtils/getAllCourt";
+import { updateRegistrarAsync } from "../../Redux/registrar/registrarAction";
 import { useNavigate } from "react-router-dom";
 
-const RegisterLawyer = () => {
+const UpdateRegistrar = () => {
+  const loginToken = useSelector((state) => loginTokenSelector(state));
+  const registrar = useSelector((state) => registrarSelector(state));
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
   const userType = useSelector((state) => userTypeSelector(state));
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!isLoggedin || userType !== "registrar") {
-      navigate("/logout");
-    }
-  }, [isLoggedin, userType]);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
+    name: registrar.name,
+    email: registrar.email,
+    phone: registrar.phone,
+    address: registrar.address,
     password: "",
-    court: "",
+    court: registrar.court?.id,
   });
   const [court, setCourt] = useState([]);
-  const loginToken = useSelector((state) => loginTokenSelector(state));
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetchData() {
@@ -38,11 +35,17 @@ const RegisterLawyer = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (!isLoggedin || userType !== "registrar") {
+      navigate("/logout");
+    }
+  }, [isLoggedin, userType]);
+
   return (
     <>
       <div className="head-title">
         <div className="left">
-          <h1>Register Lawyer</h1>
+          <h1>Update</h1>
           <ul className="breadcrumb">
             <li>
               <a href="#">Registrar</a>
@@ -52,7 +55,7 @@ const RegisterLawyer = () => {
             </li>
             <li>
               <a className="active" href="#">
-                Register Lawyer
+                Update
               </a>
             </li>
           </ul>
@@ -61,10 +64,16 @@ const RegisterLawyer = () => {
       <div className="table-data">
         <div className="order">
           <div className="head">
-            <h3>Register Lawyer</h3>
+            <h3>Update</h3>
           </div>
           <table>
             <tbody>
+              <tr>
+                <td>
+                  <label htmlFor="id">Id :</label>
+                  <button disabled={true}>{registrar.id}</button>
+                </td>
+              </tr>
               <tr>
                 <td>
                   <label htmlFor="name">Name</label>
@@ -152,6 +161,7 @@ const RegisterLawyer = () => {
                     className="court-select"
                     name="court"
                     id="court"
+                    value={formData.court}
                     onChange={(e) => {
                       setFormData((prev) => ({
                         ...prev,
@@ -174,13 +184,12 @@ const RegisterLawyer = () => {
                     className="register-button"
                     onClick={async (e) => {
                       e.preventDefault();
-                      async function register() {
-                        await registerLawyer({ ...formData, loginToken });
-                      }
-                      register();
+                      dispatch(
+                        updateRegistrarAsync({ ...formData, loginToken })
+                      );
                     }}
                   >
-                    Register
+                    Update
                   </button>
                 </td>
               </tr>
@@ -192,4 +201,4 @@ const RegisterLawyer = () => {
   );
 };
 
-export default RegisterLawyer;
+export default UpdateRegistrar;

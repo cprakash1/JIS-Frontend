@@ -32,71 +32,169 @@ const LawyerDashboard = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Lawyer Dashboard</h1>
-      ID: {lawyer?.id}
-      <br />
-      Name: {lawyer?.name}
-      <br />
-      Email: {lawyer?.email}
-      <br />
-      Phone: {lawyer?.phone}
-      <br />
-      Address: {lawyer?.address}
-      <br />
-      Court Name: {lawyer?.court?.name}
-      <br />
-      Court Location: {lawyer?.court?.location}
-      <br />
-      Payment Left: {lawyer?.paymentLeft}
-      <br />
-      Payment History:
-      <ul>
-        {lawyer?.paymentHistory?.map((payment, index) => (
-          <li key={index}>
-            Amount: {payment.amount}
-            <br />
-            Date: {DateLiberary.displayDateTime(payment.date)}
-            <br />
-            Status: {payment.status}
-            <br />
-          </li>
-        ))}
-      </ul>
-      <br />
-      Schedule:
-      <ul>
-        {lawyer?.schedule?.map((schedule, index) => (
-          <li key={index}>
-            {DateLiberary.displayDateTime(schedule.dateTime)}-
-            {schedule?.case?.CIN}
-          </li>
-        ))}
-      </ul>
-      <br />
-      Cases Seen:{" "}
-      <ul>
-        {lawyer?.casesSeen?.map((casesSeen, index) => (
-          <li key={index}>{casesSeen.CIN}</li>
-        ))}
-      </ul>
-      <br />
-      History:
-      <ul>
-        {lawyer?.history?.map((history, index) => (
-          <li key={index}>
-            Comment: {history.comment}
-            <br />
-            Date: {DateLiberary.displayDateTime(history.date)}
-            <br />
-            Status: {history.status}
-            <br />
-            CIN: {history?.case?.CIN}
-            <br />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <div className="head-title">
+        <div className="left">
+          <h1>Dashboard</h1>
+          <ul className="breadcrumb">
+            <li>
+              <a href="#">Lawyer</a>
+            </li>
+            <li>
+              <i className="bx bx-chevron-right"></i>
+            </li>
+            <li>
+              <a className="active" href="#">
+                Dashboard
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="table-data">
+        <div className="order">
+          <div className="head">
+            <h3>INFO:</h3>
+          </div>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>ID:</strong> {lawyer?.id}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  {" "}
+                  <strong> Name: </strong>
+                  {lawyer?.name}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  {" "}
+                  <strong> Email:</strong> {lawyer?.email}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  {" "}
+                  <strong> Phone: </strong>
+                  {lawyer?.phone}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Address: </strong>
+                  {lawyer?.address}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Court Name: </strong>
+                  {lawyer?.court?.name}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Court Location:</strong> {lawyer?.court?.location}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Payment Left:</strong> {lawyer?.paymentLeft}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="order">
+          <div className="head">
+            <h3>Payment History:</h3>
+          </div>
+          <table>
+            <tbody>
+              <tr>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+              {lawyer?.paymentHistory?.map((payment, index) => (
+                <tr key={index}>
+                  <td>{payment.amount}</td>
+                  <td>{DateLiberary.displayDateTime(payment.date)}</td>
+                  <td>{payment.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <br />
+        <div className="order">
+          <div className="head">
+            <h3>Schedule:</h3>
+          </div>
+
+          <table>
+            <tbody>
+              <tr>
+                <th>Date - Time</th>
+                <th>CIN</th>
+              </tr>
+              {lawyer?.schedule?.map((schedule, index) => (
+                <tr key={index}>
+                  <td>{DateLiberary.displayDateTime(schedule.dateTime)}</td>
+                  <td>{schedule?.case?.CIN}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <br />
+        <div className="order">
+          <div className="head">
+            <h3>Cases Seen:</h3>
+          </div>
+
+          <table>
+            <tbody>
+              <tr>
+                <th>CIN</th>
+              </tr>
+              {lawyer?.casesSeen?.map((casesSeen, index) => (
+                <tr key={index}>
+                  <td>{casesSeen.CIN}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <br />
+        <div className="order">
+          <div className="head">
+            <h3>History:</h3>
+          </div>
+          <table>
+            <tbody>
+              <tr>
+                <th>Comment</th>
+                <th>Date - Time</th>
+                <th>Status</th>
+                <th>CIN</th>
+              </tr>
+              {lawyer?.history?.map((history, index) => (
+                <tr key={index}>
+                  <td>{history.comment}</td>
+                  <td>{DateLiberary.displayDateTime(history.date)}</td>
+                  <td>{history.status}</td>
+                  <td>{history?.case?.CIN}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>
   );
 };
 

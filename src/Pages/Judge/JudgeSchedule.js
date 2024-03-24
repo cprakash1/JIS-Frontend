@@ -28,30 +28,54 @@ const JudgeSchedule = () => {
   }, [judgeSchedule]);
   return (
     <div>
-      <h1>JUDGE Schedule</h1>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Case ID</th>
-            <th scope="col">Date</th>
-            <th scope="col">Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          {judgeScheduleDisplay.length === 0 && (
-            <tr>
-              <td colSpan="3">No Schedule</td>
-            </tr>
-          )}
-          {judgeScheduleDisplay.map((schedule) => (
-            <tr key={schedule._id}>
-              <td>{schedule?.case?.CIN}</td>
-              <td>{DateLiberary.displayDate(schedule.dateTime)}</td>
-              <td>{DateLiberary.displayTime(schedule.dateTime)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="head-title">
+        <div className="left">
+          <h1>Schedule</h1>
+          <ul className="breadcrumb">
+            <li>
+              <a href="#">Judge</a>
+            </li>
+            <li>
+              <i className="bx bx-chevron-right"></i>
+            </li>
+            <li>
+              <a className="active" href="#">
+                Schedule
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="table-data">
+        <div className="order">
+          <div className="head">
+            <h3>Schedule:</h3>
+          </div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Case ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {judgeScheduleDisplay.length === 0 && (
+                <tr>
+                  <td colSpan="3">No Schedule</td>
+                </tr>
+              )}
+              {judgeScheduleDisplay.map((schedule) => (
+                <tr key={schedule._id}>
+                  <td>{schedule?.case?.CIN}</td>
+                  <td>{DateLiberary.displayDate(schedule.dateTime)}</td>
+                  <td>{DateLiberary.displayTime(schedule.dateTime)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

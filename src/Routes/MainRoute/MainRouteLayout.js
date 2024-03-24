@@ -1,12 +1,13 @@
 import React from "react";
-import Navbar from "../../Components/Main/Navbar";
 import { Outlet } from "react-router-dom";
+import MainNavbarDesigned from "../../Components/Main/MainNavbarDesigned";
+import NavbarDesigned from "../../Components/Main/NavbarDesigned";
 
 const MainRouteLayout = () => {
   return (
     <>
-      <Navbar />
-      <Outlet />
+      <MainNavbarDesigned />
+      <NavbarDesigned children={<Outlet />} />
     </>
   );
 };

@@ -1,47 +1,36 @@
-import React, { useContext, useState, useEffect } from "react";
-import "./Login.css"; // Import CSS file for styling
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   isLoggedinSelector,
   loginTokenSelector,
   userTypeSelector,
 } from "../../Redux/auth/authSelector";
-import { assignDate, getDates } from "../../Utils/RegistrarUtils/assignDate";
-import DateLiberary from "../../Helper/DateLiberary";
+import { addSummeryUtils } from "../../Utils/RegistrarUtils/addSummeryUtils";
 import { useNavigate } from "react-router-dom";
 
-const AssignDate = () => {
+const AddSummery = () => {
+  const loginToken = useSelector((state) => loginTokenSelector(state));
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
   const userType = useSelector((state) => userTypeSelector(state));
   const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    CIN: "",
+    comment: "",
+    status: "",
+  });
+
   useEffect(() => {
     if (!isLoggedin || userType !== "registrar") {
       navigate("/logout");
     }
   }, [isLoggedin, userType]);
-  const [formData, setFormData] = useState({
-    CIN: "",
-    dateSelected: "",
-  });
-  const loginToken = useSelector((state) => loginTokenSelector(state));
-  const [dateArray, setDateArray] = useState([]);
-
-  async function register() {
-    const data = await getDates({ ...formData, loginToken });
-    console.log(data);
-    setDateArray(data);
-  }
-
-  async function assignDateToCIN() {
-    const data = await assignDate({ ...formData, loginToken });
-    console.log(data);
-  }
 
   return (
     <>
       <div className="head-title">
         <div className="left">
-          <h1>Assign Date</h1>
+          <h1>Summery</h1>
           <ul className="breadcrumb">
             <li>
               <a href="#">Registrar</a>
@@ -51,17 +40,16 @@ const AssignDate = () => {
             </li>
             <li>
               <a className="active" href="#">
-                Assign Date
+                Summery
               </a>
             </li>
           </ul>
         </div>
       </div>
-
       <div className="table-data">
         <div className="order">
           <div className="head">
-            <h3>Assign Date</h3>
+            <h3>Add Summery</h3>
           </div>
           <table>
             <tbody>
@@ -69,7 +57,6 @@ const AssignDate = () => {
                 <td>
                   <label htmlFor="CIN">CIN</label>
                   <input
-                    className="login-input"
                     type="text"
                     id="CIN"
                     value={formData.CIN}
@@ -84,23 +71,26 @@ const AssignDate = () => {
               </tr>
               <tr>
                 <td>
-                  <button
-                    className="login-button"
-                    onClick={async (e) => {
-                      e.preventDefault();
-                      register();
+                  <label htmlFor="comment">Comment</label>
+                  <input
+                    type="text"
+                    id="comment"
+                    value={formData.comment}
+                    onChange={(e) => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        [e.target.id]: e.target.value,
+                      }));
                     }}
-                  >
-                    Get Case
-                  </button>
+                  />
                 </td>
               </tr>
               <tr>
                 <td>
-                  <label htmlFor="date">Date</label>
+                  <label htmlFor="status">Status</label>
                   <select
-                    className="login-input"
-                    id="dateSelected"
+                    id="status"
+                    value={formData.status}
                     onChange={(e) => {
                       setFormData((prev) => ({
                         ...prev,
@@ -108,25 +98,24 @@ const AssignDate = () => {
                       }));
                     }}
                   >
-                    <option value="">Select Date</option>
-                    {dateArray.map((date) => (
-                      <option value={date} key={date}>
-                        {DateLiberary.displayDateTime(date)}
-                      </option>
-                    ))}
+                    <option value="">Select</option>
+                    <option value="Summery">Summery</option>
+                    <option value="Adjourned">Adjourned</option>
                   </select>
                 </td>
               </tr>
               <tr>
                 <td>
                   <button
-                    className="login-button"
-                    onClick={async (e) => {
-                      e.preventDefault();
-                      assignDateToCIN();
+                    className="btn btn-primary"
+                    onClick={() => {
+                      async function addSummery() {
+                        await addSummeryUtils({ ...formData, loginToken });
+                      }
+                      addSummery();
                     }}
                   >
-                    Assign Date
+                    Add Summery
                   </button>
                 </td>
               </tr>
@@ -138,4 +127,4 @@ const AssignDate = () => {
   );
 };
 
-export default AssignDate;
+export default AddSummery;

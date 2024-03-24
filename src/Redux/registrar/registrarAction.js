@@ -1,4 +1,5 @@
 import { getRegistrarDashboard } from "../../Utils/RegistrarUtils/getRegistrarDashboard";
+import { updateRegistrarUtils } from "../../Utils/RegistrarUtils/updateRegistrarUtils";
 import {
   FETCH_REGISTRAR,
   UPDATE_REGISTRAR,
@@ -30,5 +31,16 @@ export const fetchRegistrarAsync = (registrar) => {
     if (getState().registrar.isFetched) return;
     const data = await getRegistrarDashboard(registrar);
     dispatch(fetchRegistrar(data));
+  };
+};
+
+export const updateRegistrarAsync = (registrar) => {
+  return async (dispatch) => {
+    try {
+      const response = await updateRegistrarUtils(registrar);
+      dispatch(updateRegistrar(response));
+    } catch (error) {
+      console.error(error);
+    }
   };
 };

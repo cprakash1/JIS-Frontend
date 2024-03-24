@@ -26,40 +26,82 @@ const RegisterCourt = () => {
 
   return (
     <>
-      <div className="registration-container">
-        <h1>Registration</h1>
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          id="name"
-          value={formData.name}
-          onChange={(e) => {
-            setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-          }}
-        />
-        <br />
-        <label htmlFor="location">Location</label>
-        <input
-          type="text"
-          id="location"
-          value={formData.location}
-          onChange={(e) => {
-            setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-          }}
-        />
-        <br />
-        <button
-          className="register-button"
-          onClick={async (e) => {
-            e.preventDefault();
-            async function register() {
-              await registerCourt({ ...formData, loginToken });
-            }
-            register();
-          }}
-        >
-          Register
-        </button>
+      <div className="head-title">
+        <div className="left">
+          <h1>Register Court</h1>
+          <ul className="breadcrumb">
+            <li>
+              <a href="#">Registrar</a>
+            </li>
+            <li>
+              <i className="bx bx-chevron-right"></i>
+            </li>
+            <li>
+              <a className="active" href="#">
+                Register Court
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="table-data">
+        <div className="order">
+          <div className="head">
+            <h3>Register Court</h3>
+          </div>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <label htmlFor="name">Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        [e.target.id]: e.target.value,
+                      }));
+                    }}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label htmlFor="location">Location</label>
+                  <input
+                    type="text"
+                    id="location"
+                    value={formData.location}
+                    onChange={(e) => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        [e.target.id]: e.target.value,
+                      }));
+                    }}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button
+                    className="register-button"
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      async function register() {
+                        await registerCourt({ ...formData, loginToken });
+                      }
+                      register();
+                    }}
+                  >
+                    Register
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

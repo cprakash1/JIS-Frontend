@@ -33,9 +33,26 @@ const Logout = () => {
 
   return (
     <div>
-      <h1>Logout</h1>
+      <div className="head-title">
+        <div className="left">
+          <h1>LogOut</h1>
+          <ul className="breadcrumb">
+            <li>
+              <a href="#">Main</a>
+            </li>
+            <li>
+              <i className="bx bx-chevron-right"></i>
+            </li>
+            <li>
+              <a className="active" href="#">
+                LogOut
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
       <p>You have been successfully logged out. Redirecting to login...</p>
-      <Link to="/login" id="logmeout">
+      <Link to="/login" id="logmeout" className="btn btn-secondary">
         Go to Login
       </Link>
     </div>

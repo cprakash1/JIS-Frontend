@@ -15,45 +15,96 @@ const Login = (props) => {
   }, [props.isLoggedin]);
   return (
     <>
-      <div className="login-container">
-        <h1>Login</h1>
-        <select
-          className="user-type-select"
-          defaultValue={props.userType}
-          onChange={(e) => {
-            props.setUserType(e.target.value);
-          }}
-        >
-          <option value="registrar">Registrar</option>
-          <option value="lawyer">Lawyer</option>
-          <option value="judge">Judge</option>
-        </select>
-        <input
-          className="login-input"
-          type="email"
-          value={userLogin.email}
-          onChange={(e) => {
-            setUserLogin((prev) => ({ ...prev, email: e.target.value }));
-          }}
-        />
-        <input
-          className="login-input"
-          type="password"
-          value={userLogin.password}
-          onChange={(e) => {
-            setUserLogin((prev) => ({ ...prev, password: e.target.value }));
-          }}
-        />
-        <button
-          className="login-button"
-          onClick={async (e) => {
-            e.preventDefault();
-            await props.login(userLogin);
-            console.log("Login Done");
-          }}
-        >
-          Login
-        </button>
+      <div className="head-title">
+        <div className="left">
+          <h1>Login</h1>
+          <ul className="breadcrumb">
+            <li>
+              <a href="#">Main</a>
+            </li>
+            <li>
+              <i className="bx bx-chevron-right"></i>
+            </li>
+            <li>
+              <a className="active" href="#">
+                Login
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="table-data">
+        <div className="order">
+          <div className="head">
+            <h3>Login</h3>
+          </div>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <label htmlFor="user-type">User Type</label>
+                  <select
+                    className="user-type-select"
+                    defaultValue={props.userType}
+                    onChange={(e) => {
+                      props.setUserType(e.target.value);
+                    }}
+                  >
+                    <option value="registrar">Registrar</option>
+                    <option value="lawyer">Lawyer</option>
+                    <option value="judge">Judge</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label htmlFor="email">Email</label>
+                  <input
+                    className="login-input"
+                    type="email"
+                    value={userLogin.email}
+                    onChange={(e) => {
+                      setUserLogin((prev) => ({
+                        ...prev,
+                        email: e.target.value,
+                      }));
+                    }}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label htmlFor="password">Password</label>
+                  <input
+                    className="login-input"
+                    type="password"
+                    value={userLogin.password}
+                    onChange={(e) => {
+                      setUserLogin((prev) => ({
+                        ...prev,
+                        password: e.target.value,
+                      }));
+                    }}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button
+                    className="login-button"
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      await props.login(userLogin);
+                      console.log("Login Done");
+                    }}
+                  >
+                    Login
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );
