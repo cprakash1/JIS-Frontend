@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import NavbarDesigned from "../../Components/Main/NavbarDesigned";
 import JudgeNavbarDesigned from "../../Components/Judge/JudgeNavbarDesigned";
+import { ToastContainer } from "react-toastify";
 
 const JudgeRouteLayout = () => {
   useEffect(() => {

@@ -9,6 +9,7 @@ import { registrarSelector } from "../../Redux/registrar/registrarSelector";
 import { getAllCourt } from "../../Utils/MainUtils/getAllCourt";
 import { updateRegistrarAsync } from "../../Redux/registrar/registrarAction";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Context/ToastProvider";
 
 const UpdateRegistrar = () => {
   const loginToken = useSelector((state) => loginTokenSelector(state));
@@ -26,11 +27,17 @@ const UpdateRegistrar = () => {
   });
   const [court, setCourt] = useState([]);
   const dispatch = useDispatch();
+  const { toast } = useToast();
 
   useEffect(() => {
     async function fetchData() {
-      const courtData = await getAllCourt();
-      setCourt(courtData);
+      try {
+        const courtData = await getAllCourt(toast);
+        setCourt(courtData);
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to fetch court data");
+      }
     }
     fetchData();
   }, []);
@@ -71,7 +78,7 @@ const UpdateRegistrar = () => {
               <tr>
                 <td>
                   <label htmlFor="id">Id :</label>
-                  <button disabled={true}>{registrar.id}</button>
+                  <div>{registrar.id}</div>
                 </td>
               </tr>
               <tr>
@@ -169,7 +176,7 @@ const UpdateRegistrar = () => {
                       }));
                     }}
                   >
-                    <option value="NO_COURT_ASSIGNED">No Court Assigned</option>
+                    <option value="">No Court Assigned</option>
                     {court.map((court, index) => (
                       <option key={index} value={court.id}>
                         {court.name}
@@ -181,11 +188,11 @@ const UpdateRegistrar = () => {
               <tr>
                 <td>
                   <button
-                    className="register-button"
+                    className="btn btn-primary"
                     onClick={async (e) => {
                       e.preventDefault();
                       dispatch(
-                        updateRegistrarAsync({ ...formData, loginToken })
+                        updateRegistrarAsync({ ...formData, loginToken }, toast)
                       );
                     }}
                   >

@@ -43,35 +43,44 @@ export const addCasesSeen = (lawyer) => {
   };
 };
 
-export const fetchLawyerAsync = (dataToSend) => {
+export const fetchLawyerAsync = (dataToSend, toast) => {
   return async (dispatch, getState) => {
-    if (getState().lawyer.isFetched) return;
-    const data = await getLawyerDashboard(dataToSend);
-    console.log(data, "data");
-    dispatch(fetchLawyer(data));
+    try {
+      if (getState().lawyer.isFetched) return;
+      toast.info("Fetching Lawyer Data");
+      const data = await getLawyerDashboard(dataToSend);
+      dispatch(fetchLawyer(data));
+      toast.success("Fetched Lawyer Data");
+    } catch (error) {
+      console.log(error);
+      toast.error("Error Fetching Lawyer Data");
+    }
   };
 };
 
-export const addLawyerPaymentAsync = (dataToSend) => {
+export const addLawyerPaymentAsync = (dataToSend, toast) => {
   return async (dispatch) => {
     try {
       const data = await addLawyerPaymentUtils(dataToSend);
-      console.log(data, "data");
       dispatch(addLawyerPayment(data));
+      toast.success("Payment Successful");
     } catch (error) {
+      toast.error("Payment Failed");
       console.log(error);
     }
   };
 };
 
-export const updateLawyerAsync = (lawyer) => {
+export const updateLawyerAsync = (lawyer, toast) => {
   return async (dispatch) => {
     try {
+      toast.info("Updating Lawyer Data");
       const data = await updateLawyerUtils(lawyer);
-      console.log(data, "data");
       dispatch(updateLawyer(data));
+      toast.success("Updated Lawyer Data");
     } catch (error) {
       console.log(error);
+      toast.error("Error Updating Lawyer Data");
     }
   };
 };

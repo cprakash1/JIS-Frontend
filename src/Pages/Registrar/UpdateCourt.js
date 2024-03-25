@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./Registration.css"; // Import CSS file for styling
 import { useSelector } from "react-redux";
 import {
   isLoggedinSelector,
@@ -8,10 +7,12 @@ import {
 } from "../../Redux/auth/authSelector";
 import { updateCourt } from "../../Utils/RegistrarUtils/updateCourt";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Context/ToastProvider";
 
 const UpdateCourt = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
   const userType = useSelector((state) => userTypeSelector(state));
+  const { toast } = useToast();
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLoggedin || userType !== "registrar") {
@@ -103,11 +104,21 @@ const UpdateCourt = () => {
               <tr>
                 <td>
                   <button
-                    className="register-button"
+                    className="btn btn-primary"
                     onClick={async (e) => {
                       e.preventDefault();
                       async function register() {
-                        await updateCourt({ ...formData, loginToken });
+                        try {
+                          await updateCourt({ ...formData, loginToken }, toast);
+                          setFormData({
+                            id: "",
+                            name: "",
+                            location: "",
+                          });
+                        } catch (e) {
+                          toast.error("Failed to update court");
+                          console.log(e);
+                        }
                       }
                       register();
                     }}

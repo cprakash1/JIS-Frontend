@@ -51,14 +51,14 @@ const JudgeSchedule = () => {
           <div className="head">
             <h3>Schedule:</h3>
           </div>
-          <table className="table">
-            <thead>
+          <table>
+            <tbody>
               <tr>
                 <th scope="col">Case ID</th>
                 <th scope="col">Date</th>
                 <th scope="col">Time</th>
               </tr>
-            </thead>
+            </tbody>
             <tbody>
               {judgeScheduleDisplay.length === 0 && (
                 <tr>

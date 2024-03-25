@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getAllCourt } from "../../Utils/MainUtils/getAllCourt";
-import "./Registration.css"; // Import CSS file for styling
 import { registerLawyer } from "../../Utils/RegistrarUtils/registerLawyer";
 import { useSelector } from "react-redux";
 import {
@@ -9,6 +8,7 @@ import {
   userTypeSelector,
 } from "../../Redux/auth/authSelector";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Context/ToastProvider";
 
 const RegisterLawyer = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
@@ -29,6 +29,7 @@ const RegisterLawyer = () => {
   });
   const [court, setCourt] = useState([]);
   const loginToken = useSelector((state) => loginTokenSelector(state));
+  const { toast } = useToast();
 
   useEffect(() => {
     async function fetchData() {
@@ -152,6 +153,7 @@ const RegisterLawyer = () => {
                     className="court-select"
                     name="court"
                     id="court"
+                    value={formData.court}
                     onChange={(e) => {
                       setFormData((prev) => ({
                         ...prev,
@@ -171,11 +173,26 @@ const RegisterLawyer = () => {
               <tr>
                 <td>
                   <button
-                    className="register-button"
+                    className="btn btn-primary"
                     onClick={async (e) => {
                       e.preventDefault();
                       async function register() {
-                        await registerLawyer({ ...formData, loginToken });
+                        try {
+                          toast.info("Registering Lawyer...");
+                          await registerLawyer({ ...formData, loginToken });
+                          toast.success("Lawyer Registered");
+                          setFormData({
+                            name: "",
+                            email: "",
+                            phone: "",
+                            address: "",
+                            password: "",
+                            court: "",
+                          });
+                        } catch (error) {
+                          console.log(error);
+                          toast.error("Error Registering Lawyer");
+                        }
                       }
                       register();
                     }}

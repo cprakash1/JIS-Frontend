@@ -8,6 +8,6 @@ export const getLawyerDashboard = async (dataToSend) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };

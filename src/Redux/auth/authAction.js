@@ -14,14 +14,13 @@ export const setErrorMessage = (error) => {
   };
 };
 
-export const login = (user) => {
+export const login = (user, toast) => {
   return async (dispatch, getState) => {
     try {
       if (user.email === "" || user.password === "") {
         dispatch(setErrorMessage("Please enter email and password"));
         return;
       }
-      console.log(getState());
       const userType = userTypeSelector(getState());
       const response = await fetch(
         `${process.env.REACT_APP_BASE_URL}/${userType}/login`,
@@ -39,11 +38,14 @@ export const login = (user) => {
           type: "LOGIN",
           payload: data,
         });
+        toast.success("Login Successful");
       } else {
         dispatch(setErrorMessage(data.error));
+        toast.error("Login Failed");
       }
     } catch (error) {
       console.log(error);
+      toast.error("Login Failed");
       dispatch(setErrorMessage(error.message));
     }
   };

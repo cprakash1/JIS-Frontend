@@ -5,6 +5,6 @@ export const registrarRegistration = async (registrar) => {
     const response = await axiosInstance.post("/registrar/register", registrar);
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };

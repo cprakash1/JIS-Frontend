@@ -26,21 +26,30 @@ export const deleteRegistrar = () => {
   };
 };
 
-export const fetchRegistrarAsync = (registrar) => {
+export const fetchRegistrarAsync = (registrar, toast) => {
   return async (dispatch, getState) => {
-    if (getState().registrar.isFetched) return;
-    const data = await getRegistrarDashboard(registrar);
-    dispatch(fetchRegistrar(data));
+    try {
+      if (getState().registrar.isFetched) return;
+      const data = await getRegistrarDashboard(registrar);
+      dispatch(fetchRegistrar(data));
+      toast.success("Successfully fetched registrar data");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to fetch registrar data");
+    }
   };
 };
 
-export const updateRegistrarAsync = (registrar) => {
+export const updateRegistrarAsync = (registrar, toast) => {
   return async (dispatch) => {
     try {
+      toast.info("Updating registrar data");
       const response = await updateRegistrarUtils(registrar);
       dispatch(updateRegistrar(response));
+      toast.success("Successfully updated registrar data");
     } catch (error) {
       console.error(error);
+      toast.error("Failed to update registrar data");
     }
   };
 };

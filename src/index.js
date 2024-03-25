@@ -5,8 +5,8 @@ import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store, { persistor } from "./Redux/store";
-import GlobalProvider from "./Context/GlobalState";
 import { PersistGate } from "redux-persist/integration/react";
+import ToastProvider from "./Context/ToastProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,9 +18,9 @@ root.render(
           element={
             <PersistGate persistor={persistor}>
               <Provider store={store}>
-                <GlobalProvider>
+                <ToastProvider>
                   <App />
-                </GlobalProvider>
+                </ToastProvider>
               </Provider>
             </PersistGate>
           }

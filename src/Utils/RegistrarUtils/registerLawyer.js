@@ -8,6 +8,6 @@ export const registerLawyer = async (lawyer) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };

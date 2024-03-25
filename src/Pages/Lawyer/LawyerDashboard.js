@@ -12,6 +12,8 @@ import {
 import { fetchLawyerAsync } from "../../Redux/lawyer/lawyerAction";
 import DateLiberary from "../../Helper/DateLiberary";
 import { useNavigate } from "react-router-dom";
+import Loader from "../Main/Loader";
+import { useToast } from "../../Context/ToastProvider";
 
 const LawyerDashboard = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
@@ -28,8 +30,10 @@ const LawyerDashboard = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (isFetched) return;
-    dispatch(fetchLawyerAsync({ loginToken }));
+
+    dispatch(fetchLawyerAsync({ loginToken }, toast));
   }, []);
+  const { toast } = useToast();
 
   return (
     <>
@@ -51,149 +55,153 @@ const LawyerDashboard = () => {
           </ul>
         </div>
       </div>
-      <div className="table-data">
-        <div className="order">
-          <div className="head">
-            <h3>INFO:</h3>
-          </div>
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <strong>ID:</strong> {lawyer?.id}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  {" "}
-                  <strong> Name: </strong>
-                  {lawyer?.name}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  {" "}
-                  <strong> Email:</strong> {lawyer?.email}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  {" "}
-                  <strong> Phone: </strong>
-                  {lawyer?.phone}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <strong>Address: </strong>
-                  {lawyer?.address}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <strong>Court Name: </strong>
-                  {lawyer?.court?.name}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <strong>Court Location:</strong> {lawyer?.court?.location}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <strong>Payment Left:</strong> {lawyer?.paymentLeft}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="order">
-          <div className="head">
-            <h3>Payment History:</h3>
-          </div>
-          <table>
-            <tbody>
-              <tr>
-                <th>Amount</th>
-                <th>Date</th>
-                <th>Status</th>
-              </tr>
-              {lawyer?.paymentHistory?.map((payment, index) => (
-                <tr key={index}>
-                  <td>{payment.amount}</td>
-                  <td>{DateLiberary.displayDateTime(payment.date)}</td>
-                  <td>{payment.status}</td>
+      {isFetched ? (
+        <div className="table-data">
+          <div className="order">
+            <div className="head">
+              <h3>INFO:</h3>
+            </div>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>ID:</strong> {lawyer?.id}
+                  </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <br />
-        <div className="order">
-          <div className="head">
-            <h3>Schedule:</h3>
+                <tr>
+                  <td>
+                    {" "}
+                    <strong> Name: </strong>
+                    {lawyer?.name}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    {" "}
+                    <strong> Email:</strong> {lawyer?.email}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    {" "}
+                    <strong> Phone: </strong>
+                    {lawyer?.phone}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Address: </strong>
+                    {lawyer?.address}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Court Name: </strong>
+                    {lawyer?.court?.name}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Court Location:</strong> {lawyer?.court?.location}
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Payment Left:</strong> {lawyer?.paymentLeft}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+          <div className="order">
+            <div className="head">
+              <h3>Payment History:</h3>
+            </div>
+            <table>
+              <tbody>
+                <tr>
+                  <th>Amount</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+                {lawyer?.paymentHistory?.map((payment, index) => (
+                  <tr key={index}>
+                    <td>{payment.amount}</td>
+                    <td>{DateLiberary.displayDateTime(payment.date)}</td>
+                    <td>{payment.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <br />
+          <div className="order">
+            <div className="head">
+              <h3>Schedule:</h3>
+            </div>
 
-          <table>
-            <tbody>
-              <tr>
-                <th>Date - Time</th>
-                <th>CIN</th>
-              </tr>
-              {lawyer?.schedule?.map((schedule, index) => (
-                <tr key={index}>
-                  <td>{DateLiberary.displayDateTime(schedule.dateTime)}</td>
-                  <td>{schedule?.case?.CIN}</td>
+            <table>
+              <tbody>
+                <tr>
+                  <th>Date - Time</th>
+                  <th>CIN</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <br />
-        <div className="order">
-          <div className="head">
-            <h3>Cases Seen:</h3>
+                {lawyer?.schedule?.map((schedule, index) => (
+                  <tr key={index}>
+                    <td>{DateLiberary.displayDateTime(schedule.dateTime)}</td>
+                    <td>{schedule?.case?.CIN}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
+          <br />
+          <div className="order">
+            <div className="head">
+              <h3>Cases Seen:</h3>
+            </div>
 
-          <table>
-            <tbody>
-              <tr>
-                <th>CIN</th>
-              </tr>
-              {lawyer?.casesSeen?.map((casesSeen, index) => (
-                <tr key={index}>
-                  <td>{casesSeen.CIN}</td>
+            <table>
+              <tbody>
+                <tr>
+                  <th>CIN</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <br />
-        <div className="order">
-          <div className="head">
-            <h3>History:</h3>
+                {lawyer?.casesSeen?.map((casesSeen, index) => (
+                  <tr key={index}>
+                    <td>{casesSeen.CIN}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <table>
-            <tbody>
-              <tr>
-                <th>Comment</th>
-                <th>Date - Time</th>
-                <th>Status</th>
-                <th>CIN</th>
-              </tr>
-              {lawyer?.history?.map((history, index) => (
-                <tr key={index}>
-                  <td>{history.comment}</td>
-                  <td>{DateLiberary.displayDateTime(history.date)}</td>
-                  <td>{history.status}</td>
-                  <td>{history?.case?.CIN}</td>
+          <br />
+          <div className="order">
+            <div className="head">
+              <h3>History:</h3>
+            </div>
+            <table>
+              <tbody>
+                <tr>
+                  <th>Comment</th>
+                  <th>Date - Time</th>
+                  <th>Status</th>
+                  <th>CIN</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+                {lawyer?.history?.map((history, index) => (
+                  <tr key={index}>
+                    <td>{history.comment}</td>
+                    <td>{DateLiberary.displayDateTime(history.date)}</td>
+                    <td>{history.status}</td>
+                    <td>{history?.case?.CIN}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      ) : (
+        <Loader />
+      )}
     </>
   );
 };
