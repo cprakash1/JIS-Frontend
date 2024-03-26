@@ -6,11 +6,13 @@ import { isLoggedinSelector } from "../../Redux/auth/authSelector";
 import { deleteJudge } from "../../Redux/judge/judgeAction";
 import { deleteLawyer } from "../../Redux/lawyer/lawyerAction";
 import { deleteRegistrar } from "../../Redux/registrar/registrarAction";
+import { useToast } from "../../Context/ToastProvider";
 
 const Logout = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   function dispatchTogether() {
     dispatch(logout());
@@ -22,10 +24,11 @@ const Logout = () => {
   useEffect(() => {
     const logoutLink = document.getElementById("logmeout");
     if (logoutLink && isLoggedin) {
+      toast.info("Logging Out...");
       dispatchTogether();
       setTimeout(() => {
         logoutLink.click();
-      }, 5000);
+      }, 2000);
     } else {
       navigate("/login");
     }

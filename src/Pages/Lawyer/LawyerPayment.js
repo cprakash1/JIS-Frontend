@@ -12,11 +12,14 @@ import {
 import { addLawyerPaymentAsync } from "../../Redux/lawyer/lawyerAction";
 import DateLiberary from "../../Helper/DateLiberary";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Context/ToastProvider";
 
 const LawyerPayment = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
   const userType = useSelector((state) => userTypeSelector(state));
   const navigate = useNavigate();
+
+  const { toast } = useToast();
   useEffect(() => {
     if (!isLoggedin || userType !== "lawyer") {
       navigate("/logout");
@@ -31,12 +34,19 @@ const LawyerPayment = () => {
   const [status, setStatus] = useState("success");
   const dispatch = useDispatch();
   async function handlePayment() {
-    const dataToSend = {
-      loginToken,
-      amount: paying,
-      status: status,
-    };
-    dispatch(addLawyerPaymentAsync(dataToSend));
+    try {
+      const dataToSend = {
+        loginToken,
+        amount: paying,
+        status: status,
+      };
+      toast.info("Paying");
+      dispatch(addLawyerPaymentAsync(dataToSend, toast));
+      setPaying(0);
+      setStatus("success");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -69,31 +79,44 @@ const LawyerPayment = () => {
           <div className="head">
             <h3>Pay</h3>
           </div>
-          <label htmlFor="amount">Amount</label>
-          <br />
-          <input
-            type="number"
-            id="amount"
-            value={paying}
-            onChange={(e) => setPaying(e.target.value)}
-          />
-          <br />
-          <label htmlFor="status">Status:</label>
-          <br />
-          <input
-            type="text"
-            id="status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          />
-          <br />
-          <button
-            onClick={() => {
-              handlePayment();
-            }}
-          >
-            Pay
-          </button>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <label htmlFor="amount">Amount</label>
+                  <input
+                    type="number"
+                    id="amount"
+                    value={paying}
+                    onChange={(e) => setPaying(e.target.value)}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label htmlFor="status">Status:</label>
+                  <input
+                    type="text"
+                    id="status"
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      handlePayment();
+                    }}
+                  >
+                    Pay
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div className="order">
           <div className="head">
@@ -101,9 +124,10 @@ const LawyerPayment = () => {
           </div>
           <table className="table">
             <thead>
-              <tr>
+              <tr id="begin">
                 <th scope="col">Date</th>
                 <th scope="col">Amount</th>
+                <th scope="col">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -116,6 +140,7 @@ const LawyerPayment = () => {
                 <tr key={payment._id}>
                   <td>{DateLiberary.displayDateTime(payment.date)}</td>
                   <td>{payment.amount}</td>
+                  <td>{payment.status}</td>
                 </tr>
               ))}
             </tbody>

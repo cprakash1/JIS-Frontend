@@ -7,12 +7,14 @@ import {
 } from "../../Redux/auth/authSelector";
 import { addSummeryUtils } from "../../Utils/RegistrarUtils/addSummeryUtils";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Context/ToastProvider";
 
 const AddSummery = () => {
   const loginToken = useSelector((state) => loginTokenSelector(state));
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
   const userType = useSelector((state) => userTypeSelector(state));
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const [formData, setFormData] = useState({
     CIN: "",
@@ -110,7 +112,15 @@ const AddSummery = () => {
                     className="btn btn-primary"
                     onClick={() => {
                       async function addSummery() {
-                        await addSummeryUtils({ ...formData, loginToken });
+                        try {
+                          await addSummeryUtils(
+                            { ...formData, loginToken },
+                            toast
+                          );
+                        } catch (e) {
+                          console.log(e);
+                          toast.error("Failed to add Summery");
+                        }
                       }
                       addSummery();
                     }}

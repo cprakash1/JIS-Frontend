@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getAllCourt } from "../../Utils/MainUtils/getAllCourt";
-import "./Registration.css"; // Import CSS file for styling
 import { useSelector } from "react-redux";
 import {
   isLoggedinSelector,
@@ -10,11 +9,14 @@ import {
 import { registerCase } from "../../Utils/RegistrarUtils/registerCase";
 import { getJudgeLawyer } from "../../Utils/RegistrarUtils/getJudgeLawyer";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Context/ToastProvider";
+import DateLiberary from "../../Helper/DateLiberary";
 
 const RegisterCase = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
   const userType = useSelector((state) => userTypeSelector(state));
   const navigate = useNavigate();
+  const { toast } = useToast();
   useEffect(() => {
     if (!isLoggedin || userType !== "registrar") {
       navigate("/logout");
@@ -24,14 +26,15 @@ const RegisterCase = () => {
     defendantName: "",
     defendantAddress: "",
     crimeType: "",
-    dateCommitted: "",
+    dateCommitted: Date.now(),
     locationCommitted: "",
     arrestingOfficer: "",
-    arrestDate: "",
+    arrestDate: Date.now(),
     judge: "",
     lawyers: [],
     court: "",
     victim: "",
+    createdAt: Date.now(),
   });
   const [court, setCourt] = useState([]);
   const [lawyers, setLawyers] = useState([]);
@@ -39,22 +42,21 @@ const RegisterCase = () => {
   const loginToken = useSelector((state) => loginTokenSelector(state));
 
   useEffect(() => {
-    console.log(formData.judge, "fi", formData.lawyers);
-  }, [formData.judge, formData.lawyers]);
-
-  useEffect(() => {
     async function fetchData() {
-      const courtData = await getAllCourt();
+      const courtData = await getAllCourt(toast);
       setCourt(courtData);
     }
     fetchData();
   }, []);
   useEffect(() => {
     async function fetchData() {
-      const data = await getJudgeLawyer({
-        courtId: formData.court,
-        loginToken,
-      });
+      const data = await getJudgeLawyer(
+        {
+          courtId: formData.court,
+          loginToken,
+        },
+        toast
+      );
       setLawyers(data.lawyers);
       setJudges(data.judges);
     }
@@ -142,7 +144,27 @@ const RegisterCase = () => {
                   <input
                     type="date"
                     id="dateCommitted"
-                    value={formData.dateCommitted}
+                    value={DateLiberary.displayDateInSelectorBox(
+                      formData.dateCommitted
+                    )}
+                    onChange={(e) => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        [e.target.id]: e.target.value,
+                      }));
+                    }}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label htmlFor="createdAt">Created At</label>
+                  <input
+                    type="date"
+                    id="createdAt"
+                    value={DateLiberary.displayDateInSelectorBox(
+                      formData.createdAt
+                    )}
                     onChange={(e) => {
                       setFormData((prev) => ({
                         ...prev,
@@ -190,7 +212,9 @@ const RegisterCase = () => {
                   <input
                     type="date"
                     id="arrestDate"
-                    value={formData.arrestDate}
+                    value={DateLiberary.displayDateInSelectorBox(
+                      formData.arrestDate
+                    )}
                     onChange={(e) => {
                       setFormData((prev) => ({
                         ...prev,
@@ -246,6 +270,7 @@ const RegisterCase = () => {
                     className="court-select"
                     name="judge"
                     id="judge"
+                    value={formData.judge}
                     onChange={(e) => {
                       setFormData((prev) => ({
                         ...prev,
@@ -267,9 +292,10 @@ const RegisterCase = () => {
                 <td>
                   <label htmlFor="lawyers">Lawyers</label>
                   <select
-                    className="court-select"
+                    className="form-select"
                     name="lawyers"
                     id="lawyers"
+                    value={formData.lawyers}
                     multiple
                     onChange={(e) => {
                       const selected = Array.from(e.target.selectedOptions).map(
@@ -293,11 +319,33 @@ const RegisterCase = () => {
               <tr>
                 <td>
                   <button
-                    className="register-button"
+                    className="btn btn-primary"
                     onClick={async (e) => {
                       e.preventDefault();
                       async function register() {
-                        await registerCase({ ...formData, loginToken });
+                        try {
+                          toast.info("Registering Case....");
+                          await registerCase(
+                            { ...formData, loginToken },
+                            toast
+                          );
+                          setFormData({
+                            defendantName: "",
+                            defendantAddress: "",
+                            crimeType: "",
+                            dateCommitted: "",
+                            locationCommitted: "",
+                            arrestingOfficer: "",
+                            arrestDate: "",
+                            judge: "",
+                            lawyers: [],
+                            court: "",
+                            victim: "",
+                          });
+                        } catch (error) {
+                          console.log(error);
+                          toast.error("Error Registering Case");
+                        }
                       }
                       register();
                     }}

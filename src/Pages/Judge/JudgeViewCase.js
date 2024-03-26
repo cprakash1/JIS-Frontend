@@ -6,11 +6,12 @@ import {
   userTypeSelector,
 } from "../../Redux/auth/authSelector";
 import { judgeCaseView } from "../../Utils/JudgeUtils/judgeCaseView";
-import "./LawyerViewCase.css"; // Import CSS file
 import DateLiberary from "../../Helper/DateLiberary";
 import { useNavigate } from "react-router-dom";
 import { judgeCasesSeenSelector } from "../../Redux/judge/judgeSelector";
 import { addCasesSeen } from "../../Redux/judge/judgeAction";
+
+import { useToast } from "../../Context/ToastProvider";
 
 const JudgeViewCase = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
@@ -26,6 +27,16 @@ const JudgeViewCase = () => {
   const loginToken = useSelector((state) => loginTokenSelector(state));
   const caseSeen = useSelector((state) => judgeCasesSeenSelector(state));
   const dispatch = useDispatch();
+  const [disabled, setDisabled] = useState(false);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (CIN.length === 0 || (caseDetails && caseDetails.CIN === CIN)) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [CIN, caseDetails, disabled]);
 
   const handleClick = async () => {
     try {
@@ -34,7 +45,7 @@ const JudgeViewCase = () => {
         loginToken: loginToken,
       };
       const response = await judgeCaseView(dataToSend);
-      console.log(response);
+      toast.success("Case Details Fetched Successfully");
       setCaseDetails(response);
       const isCaseSeen = caseSeen.find((item) => item.CIN === CIN);
       if (!isCaseSeen) {
@@ -42,6 +53,7 @@ const JudgeViewCase = () => {
       }
     } catch (error) {
       console.log(error);
+      toast.error("Error Fetching Case Details");
     }
   };
 
@@ -67,28 +79,41 @@ const JudgeViewCase = () => {
       </div>
       <div className="table-data">
         <div className="order">
-          <label htmlFor="CIN" className="label">
-            CIN:
-          </label>
-          <input
-            type="text"
-            id="CIN"
-            name="CIN"
-            className="input-text"
-            onChange={(e) => {
-              setCIN(e.target.value);
-            }}
-          />
-          <br />
-          <button
-            className="button"
-            onClick={(e) => {
-              e.preventDefault();
-              handleClick();
-            }}
-          >
-            View Case Details
-          </button>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <label htmlFor="CIN" className="label">
+                    CIN:
+                  </label>
+                  <input
+                    type="text"
+                    id="CIN"
+                    name="CIN"
+                    className="input-text"
+                    onChange={(e) => {
+                      setCIN((prev) => e.target.value);
+                    }}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    onClick={(e) => {
+                      toast.info("Please Wait");
+                      e.preventDefault();
+                      handleClick();
+                    }}
+                    disabled={disabled}
+                  >
+                    View Case Details
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <div className="order">

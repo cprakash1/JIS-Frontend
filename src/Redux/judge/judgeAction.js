@@ -34,27 +34,29 @@ export const addCasesSeen = (caseSeen) => {
   };
 };
 
-export const fetchJudgeAsync = (dataToSend) => {
+export const fetchJudgeAsync = (dataToSend, toast) => {
   return async (dispatch, getState) => {
     try {
       if (getState().judge.isFetched) return;
       const response = await getJudgeDashboard(dataToSend);
-      console.log(response);
       dispatch(fetchJudge(response));
+      toast.success("Judge Data Fetched Successfully");
     } catch (error) {
       console.log(error);
+      toast.error("Error Fetching Judge Data");
     }
   };
 };
 
-export const updateJudgeAsync = (dataToSend) => {
+export const updateJudgeAsync = (dataToSend, toast) => {
   return async (dispatch) => {
     try {
       const response = await updateJudgeUtils(dataToSend);
-      console.log(response);
       dispatch(updateJudge(response));
+      toast.success("Judge Data Updated Successfully");
     } catch (error) {
       console.log(error);
+      toast.error("Error Updating Judge Data");
     }
   };
 };

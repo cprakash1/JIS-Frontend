@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import "./Login.css"; // Import CSS file for styling
 import { useSelector } from "react-redux";
 import {
   isLoggedinSelector,
@@ -9,6 +8,7 @@ import {
 import { assignDate, getDates } from "../../Utils/RegistrarUtils/assignDate";
 import DateLiberary from "../../Helper/DateLiberary";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Context/ToastProvider";
 
 const AssignDate = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
@@ -25,16 +25,39 @@ const AssignDate = () => {
   });
   const loginToken = useSelector((state) => loginTokenSelector(state));
   const [dateArray, setDateArray] = useState([]);
+  const [disabled1, setDisabled1] = useState(false);
+  const [disabled2, setDisabled2] = useState(true);
+  const { toast } = useToast();
 
   async function register() {
-    const data = await getDates({ ...formData, loginToken });
-    console.log(data);
-    setDateArray(data);
+    try {
+      toast.info("Getting Dates..");
+      const data = await getDates({ ...formData, loginToken });
+      setDateArray(data);
+      toast.success("Dates Fetched");
+      setDisabled1(true);
+      setDisabled2(false);
+    } catch (e) {
+      console.log(e);
+      toast.error("Error Fetching Dates");
+      setDisabled1(true);
+      setDisabled2(false);
+    }
   }
 
   async function assignDateToCIN() {
-    const data = await assignDate({ ...formData, loginToken });
-    console.log(data);
+    try {
+      toast.info("Assinging Date..");
+      const data = await assignDate({ ...formData, loginToken });
+      toast.success("Date Assigned");
+      setDisabled1(false);
+      setDisabled2(true);
+    } catch (e) {
+      toast.error("Error Assigning Date");
+      console.log(e);
+      setDisabled1(false);
+      setDisabled2(true);
+    }
   }
 
   return (
@@ -85,7 +108,8 @@ const AssignDate = () => {
               <tr>
                 <td>
                   <button
-                    className="login-button"
+                    className="btn btn-primary"
+                    disabled={disabled1}
                     onClick={async (e) => {
                       e.preventDefault();
                       register();
@@ -120,7 +144,8 @@ const AssignDate = () => {
               <tr>
                 <td>
                   <button
-                    className="login-button"
+                    className="btn btn-primary"
+                    disabled={disabled2}
                     onClick={async (e) => {
                       e.preventDefault();
                       assignDateToCIN();

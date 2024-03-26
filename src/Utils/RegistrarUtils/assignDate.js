@@ -6,10 +6,9 @@ export const getDates = async (dataToSend) => {
       "/registrar/get-schedule",
       dataToSend
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 
@@ -19,9 +18,8 @@ export const assignDate = async (dataToSend) => {
       "/registrar/date-selected",
       dataToSend
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };

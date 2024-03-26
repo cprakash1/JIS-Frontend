@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getAllCourt } from "../../Utils/MainUtils/getAllCourt";
-import { registrarRegistration } from "../../Utils/MainUtils/registrarRegistration";
-import "./Registration.css"; // Import CSS file for styling
 import { registerJudge } from "../../Utils/RegistrarUtils/registerJudge";
 import { useSelector } from "react-redux";
 import {
@@ -10,6 +8,7 @@ import {
   userTypeSelector,
 } from "../../Redux/auth/authSelector";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Context/ToastProvider";
 
 const RegisterJudge = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
@@ -30,6 +29,7 @@ const RegisterJudge = () => {
   });
   const [court, setCourt] = useState([]);
   const loginToken = useSelector((state) => loginTokenSelector(state));
+  const { toast } = useToast();
 
   useEffect(() => {
     async function fetchData() {
@@ -153,6 +153,7 @@ const RegisterJudge = () => {
                     className="court-select"
                     name="court"
                     id="court"
+                    value={formData.court}
                     onChange={(e) => {
                       setFormData((prev) => ({
                         ...prev,
@@ -160,7 +161,7 @@ const RegisterJudge = () => {
                       }));
                     }}
                   >
-                    <option value="NO_COURT_ASSIGNED">No Court Assigned</option>
+                    <option value="">No Court Assigned</option>
                     {court.map((court, index) => (
                       <option key={index} value={court.id}>
                         {court.name}
@@ -172,16 +173,31 @@ const RegisterJudge = () => {
               <tr>
                 <td>
                   <button
-                    className="register-button"
+                    className="btn btn-primary"
                     onClick={async (e) => {
                       e.preventDefault();
                       async function register() {
-                        await registerJudge({ ...formData, loginToken });
+                        try {
+                          toast.info("Registering Judge...");
+                          await registerJudge({ ...formData, loginToken });
+                          toast.success("Judge Registered Successfully");
+                          setFormData({
+                            name: "",
+                            email: "",
+                            phone: "",
+                            address: "",
+                            password: "",
+                            court: "",
+                          });
+                        } catch (e) {
+                          console.log(e);
+                          toast.error("Failed to Register Judge");
+                        }
                       }
                       register();
                     }}
                   >
-                    Register 1
+                    Register
                   </button>
                 </td>
               </tr>

@@ -10,6 +10,7 @@ import DateLiberary from "../../Helper/DateLiberary";
 import { useNavigate } from "react-router-dom";
 import { lawyerCasesSeenSelector } from "../../Redux/lawyer/lawyerSelector";
 import { addCasesSeen } from "../../Redux/lawyer/lawyerAction";
+import { useToast } from "../../Context/ToastProvider";
 
 const LawyerViewCase = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
@@ -25,6 +26,8 @@ const LawyerViewCase = () => {
   const loginToken = useSelector((state) => loginTokenSelector(state));
   const caseSeen = useSelector((state) => lawyerCasesSeenSelector(state));
   const dispatch = useDispatch();
+  const { toast } = useToast();
+  const [disabled, setDisabled] = useState(false);
 
   const handleClick = async () => {
     try {
@@ -32,16 +35,27 @@ const LawyerViewCase = () => {
         CIN: CIN,
         loginToken: loginToken,
       };
+      toast.info("Fetching Case Details");
       const response = await lawyerCaseView(dataToSend);
       setCaseDetails(response);
+      toast.success("Fetched Case Details");
       const isCaseSeen = caseSeen.find((item) => item.CIN === CIN);
       if (!isCaseSeen) {
         dispatch(addCasesSeen({ CIN: CIN, _id: response._id }));
       }
     } catch (error) {
       console.log(error);
+      toast.error("Error Fetching Case Details");
     }
   };
+
+  useEffect(() => {
+    if (caseDetails && caseDetails.CIN === CIN) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [caseDetails, disabled, CIN]);
 
   return (
     <>
@@ -65,28 +79,40 @@ const LawyerViewCase = () => {
       </div>
       <div className="table-data">
         <div className="order">
-          <label htmlFor="CIN" className="label">
-            CIN:
-          </label>
-          <input
-            type="text"
-            id="CIN"
-            name="CIN"
-            className="input-text"
-            onChange={(e) => {
-              setCIN(e.target.value);
-            }}
-          />
-          <br />
-          <button
-            className="button"
-            onClick={(e) => {
-              e.preventDefault();
-              handleClick();
-            }}
-          >
-            View Case Details
-          </button>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <label htmlFor="CIN" className="label">
+                    CIN:
+                  </label>
+                  <input
+                    type="text"
+                    id="CIN"
+                    name="CIN"
+                    className="input-text"
+                    onChange={(e) => {
+                      setCIN(e.target.value);
+                    }}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    disabled={disabled}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleClick();
+                    }}
+                  >
+                    View Case Details
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <div className="order">

@@ -21,7 +21,7 @@ const LawyerNavbarDesigned = () => {
   return (
     <>
       <section id="sidebar">
-        <Link to="/login" className="brand">
+        <Link to="/" className="brand">
           <span className="text ms-3">JIS</span>
         </Link>
         <ul className="side-menu top">
@@ -33,7 +33,7 @@ const LawyerNavbarDesigned = () => {
           </li>
           <li>
             <Link to="/lawyer/view-case">
-              <i className="bx bxs-bullseye"></i>
+              <i className="bx bx-expand-alt"></i>
               <span className="text">View - Case</span>
             </Link>
           </li>
@@ -50,8 +50,14 @@ const LawyerNavbarDesigned = () => {
             </Link>
           </li>
           <li>
+            <Link to="/lawyer/search">
+              <i className="bx bx-search"></i>
+              <span className="text">Search</span>
+            </Link>
+          </li>
+          <li>
             <Link to="/lawyer/update">
-              <i className="bx bxs-upvote"></i>
+              <i className="bx bxs-cog"></i>
               <span className="text">Update</span>
             </Link>
           </li>

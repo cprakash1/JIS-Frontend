@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { login, setUserType } from "../../Redux/auth/authAction";
-import "./Login.css"; // Import CSS file for styling
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Context/ToastProvider";
 
 const Login = (props) => {
   const navigate = useNavigate();
@@ -13,6 +13,8 @@ const Login = (props) => {
   useEffect(() => {
     if (props.isLoggedin) navigate(`/${props.userType}`);
   }, [props.isLoggedin]);
+  const { toast } = useToast();
+
   return (
     <>
       <div className="head-title">
@@ -91,11 +93,11 @@ const Login = (props) => {
               <tr>
                 <td>
                   <button
-                    className="login-button"
+                    className="btn btn-primary"
                     onClick={async (e) => {
                       e.preventDefault();
-                      await props.login(userLogin);
-                      console.log("Login Done");
+                      toast.info("Logging In...");
+                      await props.login(userLogin, toast);
                     }}
                   >
                     Login
@@ -120,7 +122,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setUserType: (userType) => dispatch(setUserType(userType)),
-    login: (user) => dispatch(login(user)),
+    login: (user, toast) => dispatch(login(user, toast)),
   };
 };
 

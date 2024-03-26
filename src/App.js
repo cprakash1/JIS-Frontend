@@ -6,6 +6,7 @@ import LawyerRoute from "./Routes/LawyerRoute/LawyerRoute";
 import JudgeRoute from "./Routes/JudgeRoute/JudgeRoute";
 import "./NavbarDesigned.css";
 import "./NavbarDesigned";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (

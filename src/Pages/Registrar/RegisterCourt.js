@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./Registration.css"; // Import CSS file for styling
 import { useSelector } from "react-redux";
 import {
   isLoggedinSelector,
@@ -8,6 +7,7 @@ import {
 } from "../../Redux/auth/authSelector";
 import { registerCourt } from "../../Utils/RegistrarUtils/registerCourt";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Context/ToastProvider";
 
 const RegisterCourt = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
@@ -23,6 +23,7 @@ const RegisterCourt = () => {
     location: "",
   });
   const loginToken = useSelector((state) => loginTokenSelector(state));
+  const { toast } = useToast();
 
   return (
     <>
@@ -86,11 +87,22 @@ const RegisterCourt = () => {
               <tr>
                 <td>
                   <button
-                    className="register-button"
+                    className="btn btn-primary"
                     onClick={async (e) => {
                       e.preventDefault();
                       async function register() {
-                        await registerCourt({ ...formData, loginToken });
+                        try {
+                          toast.info("Registering Court...");
+                          await registerCourt({ ...formData, loginToken });
+                          toast.success("Court Registered");
+                          setFormData({
+                            name: "",
+                            location: "",
+                          });
+                        } catch (error) {
+                          toast.error("Error Registering Court");
+                          console.log(error);
+                        }
                       }
                       register();
                     }}

@@ -1,14 +1,14 @@
 import axiosInstance from "../MainUtils/axiosInstance";
 
-export const registerCase = async (caseData) => {
+export const registerCase = async (caseData, toast) => {
   try {
     const response = await axiosInstance.post(
       "/registrar/register-case",
       caseData
     );
-    console.log(response.data);
+    toast.success("Case Registered");
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };

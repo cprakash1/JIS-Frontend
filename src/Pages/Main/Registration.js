@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { getAllCourt } from "../../Utils/MainUtils/getAllCourt";
 import { registrarRegistration } from "../../Utils/MainUtils/registrarRegistration";
-import "./Registration.css"; // Import CSS file for styling
 import { useSelector } from "react-redux";
 import {
   isLoggedinSelector,
   userTypeSelector,
 } from "../../Redux/auth/authSelector";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Context/ToastProvider";
 
 const Registration = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
@@ -22,6 +22,7 @@ const Registration = () => {
     court: "",
   });
   const [court, setCourt] = useState([]);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (isLoggedin) navigate(`/${userType}`);
@@ -149,6 +150,7 @@ const Registration = () => {
                     className="court-select"
                     name="court"
                     id="court"
+                    value={formData.court}
                     onChange={(e) => {
                       setFormData((prev) => ({
                         ...prev,
@@ -156,7 +158,7 @@ const Registration = () => {
                       }));
                     }}
                   >
-                    <option value="NO_COURT_ASSIGNED">No Court Assigned</option>
+                    <option value="">No Court Assigned</option>
                     {court.map((court, index) => (
                       <option key={index} value={court.id}>
                         {court.name}
@@ -168,11 +170,26 @@ const Registration = () => {
               <tr>
                 <td>
                   <button
-                    className="register-button"
+                    className="btn btn-primary"
                     onClick={async (e) => {
                       e.preventDefault();
                       async function register() {
-                        await registrarRegistration(formData);
+                        try {
+                          toast.info("Registering...");
+                          await registrarRegistration(formData);
+                          toast.success("Registration Successful");
+                          setFormData({
+                            name: "",
+                            email: "",
+                            phone: "",
+                            address: "",
+                            password: "",
+                            court: "",
+                          });
+                        } catch (e) {
+                          console.log(e);
+                          toast.error("Registration Failed");
+                        }
                       }
                       register();
                     }}

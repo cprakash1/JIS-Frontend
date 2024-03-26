@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getAllCourt } from "../../Utils/MainUtils/getAllCourt";
-import "./Registration.css"; // Import CSS file for styling
 import { useDispatch, useSelector } from "react-redux";
 import {
   isLoggedinSelector,
@@ -10,6 +9,7 @@ import {
 import { judgeSelector } from "../../Redux/judge/judgeSelector";
 import { updateJudgeAsync } from "../../Redux/judge/judgeAction";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Context/ToastProvider";
 
 const JudgeUpdate = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
@@ -30,6 +30,7 @@ const JudgeUpdate = () => {
     court: judge.court?.id,
   });
 
+  const { toast } = useToast();
   const [court, setCourt] = useState([]);
   const loginToken = useSelector((state) => loginTokenSelector(state));
   const dispatch = useDispatch();
@@ -72,7 +73,7 @@ const JudgeUpdate = () => {
               <tr>
                 <td>
                   <label htmlFor="id">Id :</label>
-                  <button disabled={true}>{judge.id}</button>
+                  <div disabled={true}>{judge.id}</div>
                 </td>
               </tr>
               <tr>
@@ -170,7 +171,7 @@ const JudgeUpdate = () => {
                       }));
                     }}
                   >
-                    <option value="NO_COURT_ASSIGNED">No Court Assigned</option>
+                    <option value="">No Court Assigned</option>
                     {court.map((court, index) => (
                       <option key={index} value={court.id}>
                         {court.name}
@@ -182,10 +183,13 @@ const JudgeUpdate = () => {
               <tr>
                 <td>
                   <button
-                    className="register-button"
+                    className="btn btn-primary"
                     onClick={async (e) => {
                       e.preventDefault();
-                      dispatch(updateJudgeAsync({ ...formData, loginToken }));
+                      toast.info("Updating Judge Data");
+                      dispatch(
+                        updateJudgeAsync({ ...formData, loginToken }, toast)
+                      );
                     }}
                   >
                     Update

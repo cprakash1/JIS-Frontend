@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { getAllCourt } from "../../Utils/MainUtils/getAllCourt";
-import "./Registration.css"; // Import CSS file for styling
 import { useDispatch, useSelector } from "react-redux";
 import {
   isLoggedinSelector,
@@ -10,6 +9,7 @@ import {
 import { lawyerSelector } from "../../Redux/lawyer/lawyerSelector";
 import { updateLawyerAsync } from "../../Redux/lawyer/lawyerAction";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Context/ToastProvider";
 
 const LawyerUpdate = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
@@ -29,14 +29,14 @@ const LawyerUpdate = () => {
     password: "",
     court: lawyer.court?.id,
   });
-
+  const { toast } = useToast();
   const [court, setCourt] = useState([]);
   const loginToken = useSelector((state) => loginTokenSelector(state));
   const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetchData() {
-      const courtData = await getAllCourt();
+      const courtData = await getAllCourt(toast);
       setCourt(courtData);
     }
     fetchData();
@@ -72,7 +72,7 @@ const LawyerUpdate = () => {
               <tr>
                 <td>
                   <label htmlFor="id">Id :</label>
-                  <button disabled={true}>{lawyer.id}</button>
+                  <div>{lawyer.id}</div>
                 </td>
               </tr>
               <tr>
@@ -170,7 +170,7 @@ const LawyerUpdate = () => {
                       }));
                     }}
                   >
-                    <option value="NO_COURT_ASSIGNED">No Court Assigned</option>
+                    <option value="">No Court Assigned</option>
                     {court.map((court, index) => (
                       <option key={index} value={court.id}>
                         {court.name}
@@ -182,10 +182,13 @@ const LawyerUpdate = () => {
               <tr>
                 <td>
                   <button
-                    className="register-button"
+                    className="btn btn-primary"
                     onClick={async (e) => {
                       e.preventDefault();
-                      dispatch(updateLawyerAsync({ ...formData, loginToken }));
+
+                      dispatch(
+                        updateLawyerAsync({ ...formData, loginToken }, toast)
+                      );
                     }}
                   >
                     Update
