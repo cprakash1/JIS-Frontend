@@ -6,6 +6,8 @@ import Registration from "../../Pages/Main/Registration";
 import MainRouteLayout from "./MainRouteLayout";
 import MainPage from "../../Pages/Main/MainPage";
 import AboutPage from "../../Pages/Main/AboutPage";
+import PageNotFound from "../../Pages/Main/PageNotFound";
+import SearchCases from "../../Pages/Main/SearchCases";
 
 const MainRoute = () => {
   return (
@@ -16,7 +18,7 @@ const MainRoute = () => {
         <Route path="login" index element={<Login />} />
         <Route path="registration" element={<Registration />} />
         <Route path="logout" element={<Logout />} />
-        <Route path="*" element={<h1>Page Not Found</h1>} />
+        <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
   );

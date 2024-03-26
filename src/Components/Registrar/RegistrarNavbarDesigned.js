@@ -21,7 +21,7 @@ const RegistrarNavbarDesigned = () => {
   return (
     <>
       <section id="sidebar">
-        <Link to="/login" className="brand">
+        <Link to="/" className="brand">
           <span className="text ms-3">JIS</span>
         </Link>
         <ul className="side-menu top">
@@ -74,8 +74,44 @@ const RegistrarNavbarDesigned = () => {
             </Link>
           </li>
           <li>
+            <Link to="/registrar/case-view">
+              <i className="bx bx-expand-alt"></i>
+              <span className="text">Case View</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/registrar/close-case">
+              <i className="bx bxs-comment-x"></i>
+              <span className="text">Close Case</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/registrar/pending-case">
+              <i className="bx bx-alarm-exclamation"></i>
+              <span className="text">Pending Case</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/registrar/today-cases">
+              <i className="bx bxs-alarm-exclamation"></i>
+              <span className="text">Today Cases</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/registrar/resolved-cases">
+              <i className="bx bx-comment-check"></i>
+              <span className="text">Resolved Cases</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/registrar/search">
+              <i className="bx bx-search"></i>
+              <span className="text">Search</span>
+            </Link>
+          </li>
+          <li>
             <Link to="/registrar/update">
-              <i className="bx bxs-upvote"></i>
+              <i className="bx bxs-cog"></i>
               <span className="text">Update</span>
             </Link>
           </li>

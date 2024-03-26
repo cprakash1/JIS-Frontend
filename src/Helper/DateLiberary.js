@@ -24,6 +24,10 @@ class DateLiberary {
     // return date and time in 12th January 2021 12:00 AM format
     return `${this.displayDate(date)} ${this.displayTime(date)}`;
   };
+  displayDateInSelectorBox = (date) => {
+    if (!date) return "";
+    return new Date(date).toISOString().split("T")[0];
+  };
 }
 
 export default new DateLiberary();

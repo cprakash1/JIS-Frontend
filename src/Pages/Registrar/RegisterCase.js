@@ -10,6 +10,7 @@ import { registerCase } from "../../Utils/RegistrarUtils/registerCase";
 import { getJudgeLawyer } from "../../Utils/RegistrarUtils/getJudgeLawyer";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../../Context/ToastProvider";
+import DateLiberary from "../../Helper/DateLiberary";
 
 const RegisterCase = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
@@ -25,14 +26,15 @@ const RegisterCase = () => {
     defendantName: "",
     defendantAddress: "",
     crimeType: "",
-    dateCommitted: "",
+    dateCommitted: Date.now(),
     locationCommitted: "",
     arrestingOfficer: "",
-    arrestDate: "",
+    arrestDate: Date.now(),
     judge: "",
     lawyers: [],
     court: "",
     victim: "",
+    createdAt: Date.now(),
   });
   const [court, setCourt] = useState([]);
   const [lawyers, setLawyers] = useState([]);
@@ -142,7 +144,27 @@ const RegisterCase = () => {
                   <input
                     type="date"
                     id="dateCommitted"
-                    value={formData.dateCommitted}
+                    value={DateLiberary.displayDateInSelectorBox(
+                      formData.dateCommitted
+                    )}
+                    onChange={(e) => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        [e.target.id]: e.target.value,
+                      }));
+                    }}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label htmlFor="createdAt">Created At</label>
+                  <input
+                    type="date"
+                    id="createdAt"
+                    value={DateLiberary.displayDateInSelectorBox(
+                      formData.createdAt
+                    )}
                     onChange={(e) => {
                       setFormData((prev) => ({
                         ...prev,
@@ -190,7 +212,9 @@ const RegisterCase = () => {
                   <input
                     type="date"
                     id="arrestDate"
-                    value={formData.arrestDate}
+                    value={DateLiberary.displayDateInSelectorBox(
+                      formData.arrestDate
+                    )}
                     onChange={(e) => {
                       setFormData((prev) => ({
                         ...prev,

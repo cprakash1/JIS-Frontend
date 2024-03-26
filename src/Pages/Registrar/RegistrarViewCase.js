@@ -1,31 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   isLoggedinSelector,
   loginTokenSelector,
   userTypeSelector,
 } from "../../Redux/auth/authSelector";
-import { lawyerCaseView } from "../../Utils/LawyerUtils/lawyerCaseView";
+import { registrarCaseView } from "../../Utils/RegistrarUtils/registrarViewCase";
 import DateLiberary from "../../Helper/DateLiberary";
 import { useNavigate } from "react-router-dom";
-import { lawyerCasesSeenSelector } from "../../Redux/lawyer/lawyerSelector";
-import { addCasesSeen } from "../../Redux/lawyer/lawyerAction";
 import { useToast } from "../../Context/ToastProvider";
 
-const LawyerViewCase = () => {
+const RegistrarViewCase = () => {
   const isLoggedin = useSelector((state) => isLoggedinSelector(state));
   const userType = useSelector((state) => userTypeSelector(state));
   const navigate = useNavigate();
   useEffect(() => {
-    if (!isLoggedin || userType !== "lawyer") {
+    if (!isLoggedin || userType !== "registrar") {
       navigate("/logout");
     }
   }, [isLoggedin, userType]);
   const [caseDetails, setCaseDetails] = useState(null);
   const [CIN, setCIN] = useState("");
   const loginToken = useSelector((state) => loginTokenSelector(state));
-  const caseSeen = useSelector((state) => lawyerCasesSeenSelector(state));
-  const dispatch = useDispatch();
   const { toast } = useToast();
   const [disabled, setDisabled] = useState(false);
 
@@ -36,13 +32,9 @@ const LawyerViewCase = () => {
         loginToken: loginToken,
       };
       toast.info("Fetching Case Details");
-      const response = await lawyerCaseView(dataToSend);
+      const response = await registrarCaseView(dataToSend);
       setCaseDetails(response);
       toast.success("Fetched Case Details");
-      const isCaseSeen = caseSeen.find((item) => item.CIN === CIN);
-      if (!isCaseSeen) {
-        dispatch(addCasesSeen({ CIN: CIN, _id: response._id }));
-      }
     } catch (error) {
       console.log(error);
       toast.error("Error Fetching Case Details");
@@ -64,7 +56,7 @@ const LawyerViewCase = () => {
           <h1>Case View</h1>
           <ul className="breadcrumb">
             <li>
-              <a href="#">Lawyer</a>
+              <a href="#">Registrar</a>
             </li>
             <li>
               <i className="bx bx-chevron-right"></i>
@@ -163,6 +155,20 @@ const LawyerViewCase = () => {
                     {DateLiberary.displayDateTime(caseDetails?.arrestDate)}
                   </td>
                 </tr>
+                <tr>
+                  <td>
+                    <strong>Created At:</strong>
+                    {DateLiberary.displayDateTime(caseDetails?.createdAt)}
+                  </td>
+                </tr>
+                {caseDetails?.closedAt && (
+                  <tr>
+                    <td>
+                      <strong>Closed At:</strong>
+                      {DateLiberary.displayDateTime(caseDetails?.closedAt)}
+                    </td>
+                  </tr>
+                )}
                 <tr>
                   <td>
                     <strong>Judge:</strong> {caseDetails.judge?.name}
@@ -295,4 +301,4 @@ const LawyerViewCase = () => {
   );
 };
 
-export default LawyerViewCase;
+export default RegistrarViewCase;

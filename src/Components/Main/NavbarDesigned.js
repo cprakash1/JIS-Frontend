@@ -29,7 +29,7 @@ const NavbarDesigned = ({ children }) => {
         {isLoggedin && (
           <nav>
             <i className="bx bx-menu"></i>
-            <Link to="#" className="nav-link">
+            <Link to={`/${userTypes}`} className="nav-link">
               {userTypes.toUpperCase()}
             </Link>
             <form action="#">
@@ -42,7 +42,7 @@ const NavbarDesigned = ({ children }) => {
             </form>
             <input type="checkbox" id="switch-mode" hidden />
             <label htmlFor="switch-mode" className="switch-mode"></label>
-            <Link to="#" className="notification">
+            <Link to={`/${userTypes}`} className="notification">
               <i className="bx bx-user"></i>
             </Link>
             <Link to={`/${userTypes}`} className="profile">

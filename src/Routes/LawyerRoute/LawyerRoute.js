@@ -6,6 +6,8 @@ import LawyerViewCase from "../../Pages/Lawyer/LawyerViewCase";
 import LawyerSchedule from "../../Pages/Lawyer/LawyerSchedule";
 import LawyerPayment from "../../Pages/Lawyer/LawyerPayment";
 import LawyerUpdate from "../../Pages/Lawyer/LawyerUpdate";
+import PageNotFound from "../../Pages/Main/PageNotFound";
+import SearchCases from "../../Pages/Main/SearchCases";
 
 const LawyerRoute = () => {
   return (
@@ -16,6 +18,8 @@ const LawyerRoute = () => {
         <Route path="get-schedule" element={<LawyerSchedule />} />
         <Route path="payment" element={<LawyerPayment />} />
         <Route path="update" element={<LawyerUpdate />} />
+        <Route path="search" element={<SearchCases />} />
+        <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
   );

@@ -6,7 +6,7 @@ const MainNavbarDesigned = () => {
   return (
     <>
       <section id="sidebar">
-        <Link to="/login" className="brand">
+        <Link to="/" className="brand">
           <span className="text ms-3">JIS</span>
         </Link>
         <NavbarSideMenu />

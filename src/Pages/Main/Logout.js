@@ -28,7 +28,7 @@ const Logout = () => {
       dispatchTogether();
       setTimeout(() => {
         logoutLink.click();
-      }, 5000);
+      }, 2000);
     } else {
       navigate("/login");
     }
