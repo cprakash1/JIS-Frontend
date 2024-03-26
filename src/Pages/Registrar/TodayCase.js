@@ -71,7 +71,7 @@ const TodayCase = () => {
                     value={selectedCourt}
                     onChange={(e) => setSelectedCourt(e.target.value)}
                   >
-                    <option value="">Select Court</option>
+                    <option value="">All Courts</option>
                     {court.map((item) => (
                       <option value={item.id} key={item.id}>
                         {item.name}
