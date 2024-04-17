@@ -1,7 +1,9 @@
 import * as jose from "jose";
 import { convertToMilliseconds } from "../Helper/convertToMillisecond";
 const SECRET = process.env.REACT_APP_PUBLIC_KEY;
-const JWT_EXPIRY = convertToMilliseconds(process.env.JWT_EXPIRY || "24h");
+const JWT_EXPIRY = convertToMilliseconds(
+  process.env.REACT_APP_JWT_EXPIRY || "24h"
+);
 
 class Jwt {
   async generateToken(payload) {
