@@ -27,12 +27,13 @@ const AssignDate = () => {
   const [dateArray, setDateArray] = useState([]);
   const [disabled1, setDisabled1] = useState(false);
   const [disabled2, setDisabled2] = useState(true);
+  const [startDate, setStartDate] = useState(Date.now());
   const { toast } = useToast();
 
   async function register() {
     try {
       toast.info("Getting Dates..");
-      const data = await getDates({ ...formData, loginToken });
+      const data = await getDates({ ...formData, loginToken, date: startDate });
       setDateArray(data);
       toast.success("Dates Fetched");
       setDisabled1(true);
@@ -48,7 +49,11 @@ const AssignDate = () => {
   async function assignDateToCIN() {
     try {
       toast.info("Assinging Date..");
-      const data = await assignDate({ ...formData, loginToken });
+      const data = await assignDate({
+        ...formData,
+        loginToken,
+        date: startDate,
+      });
       toast.success("Date Assigned");
       setDisabled1(false);
       setDisabled2(true);
@@ -101,6 +106,18 @@ const AssignDate = () => {
                         ...prev,
                         [e.target.id]: e.target.value,
                       }));
+                    }}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label htmlFor="date">Start Date</label>
+                  <input
+                    type="date"
+                    value={DateLiberary.displayDateInSelectorBox(startDate)}
+                    onChange={(e) => {
+                      setStartDate(e.target.value);
                     }}
                   />
                 </td>

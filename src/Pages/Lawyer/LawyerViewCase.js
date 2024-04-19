@@ -48,6 +48,25 @@ const LawyerViewCase = () => {
       toast.error("Error Fetching Case Details");
     }
   };
+  const handleClickNew = async (cin) => {
+    try {
+      const dataToSend = {
+        CIN: cin,
+        loginToken: loginToken,
+      };
+      toast.info("Fetching Case Details");
+      const response = await lawyerCaseView(dataToSend);
+      setCaseDetails(response);
+      toast.success("Fetched Case Details");
+      const isCaseSeen = caseSeen.find((item) => item.CIN === CIN);
+      if (!isCaseSeen) {
+        dispatch(addCasesSeen({ CIN: CIN, _id: response._id }));
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error Fetching Case Details");
+    }
+  };
 
   useEffect(() => {
     if (caseDetails && caseDetails.CIN === CIN) {
@@ -56,6 +75,15 @@ const LawyerViewCase = () => {
       setDisabled(false);
     }
   }, [caseDetails, disabled, CIN]);
+
+  useEffect(() => {
+    if (localStorage.getItem("CIN_DISPLAY")) {
+      const temp = localStorage.getItem("CIN_DISPLAY");
+      setCIN((prev) => temp);
+      localStorage.removeItem("CIN_DISPLAY");
+      handleClickNew(temp);
+    }
+  }, []);
 
   return (
     <>
@@ -90,6 +118,7 @@ const LawyerViewCase = () => {
                     type="text"
                     id="CIN"
                     name="CIN"
+                    value={CIN}
                     className="input-text"
                     onChange={(e) => {
                       setCIN(e.target.value);

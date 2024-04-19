@@ -70,6 +70,22 @@ const JudgeSchedule = () => {
                   <td>{schedule?.case?.CIN}</td>
                   <td>{DateLiberary.displayDate(schedule.dateTime)}</td>
                   <td>{DateLiberary.displayTime(schedule.dateTime)}</td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        localStorage.setItem(
+                          "CIN_DISPLAY",
+                          schedule?.case?.CIN
+                        );
+                        navigate(`/judge/view-case`);
+                      }}
+                    >
+                      ViewCase
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

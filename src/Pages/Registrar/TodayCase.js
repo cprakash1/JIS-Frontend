@@ -129,6 +129,7 @@ const TodayCase = () => {
                   <th>CIN</th>
                   <th>Court Name</th>
                   <th>Date Time</th>
+                  <th>Action</th>
                 </tr>
                 {todayCases &&
                   todayCases.map((item) => (
@@ -139,6 +140,19 @@ const TodayCase = () => {
                         {DateLiberary.displayDateTime(
                           item.nextHearing.dateTime
                         )}
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            localStorage.setItem("CIN_DISPLAY", item.CIN);
+                            navigate(`/registrar/case-view`);
+                          }}
+                        >
+                          ViewCase
+                        </button>
                       </td>
                     </tr>
                   ))}

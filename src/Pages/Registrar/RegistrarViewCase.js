@@ -40,6 +40,21 @@ const RegistrarViewCase = () => {
       toast.error("Error Fetching Case Details");
     }
   };
+  const handleClickNew = async (cin) => {
+    try {
+      const dataToSend = {
+        CIN: cin,
+        loginToken: loginToken,
+      };
+      toast.info("Fetching Case Details");
+      const response = await registrarCaseView(dataToSend);
+      setCaseDetails(response);
+      toast.success("Fetched Case Details");
+    } catch (error) {
+      console.log(error);
+      toast.error("Error Fetching Case Details");
+    }
+  };
 
   useEffect(() => {
     if (caseDetails && caseDetails.CIN === CIN) {
@@ -48,6 +63,15 @@ const RegistrarViewCase = () => {
       setDisabled(false);
     }
   }, [caseDetails, disabled, CIN]);
+
+  useEffect(() => {
+    if (localStorage.getItem("CIN_DISPLAY")) {
+      const temp = localStorage.getItem("CIN_DISPLAY");
+      setCIN((prev) => temp);
+      localStorage.removeItem("CIN_DISPLAY");
+      handleClickNew(temp);
+    }
+  }, []);
 
   return (
     <>
@@ -82,6 +106,7 @@ const RegistrarViewCase = () => {
                     type="text"
                     id="CIN"
                     name="CIN"
+                    value={CIN}
                     className="input-text"
                     onChange={(e) => {
                       setCIN(e.target.value);
@@ -93,6 +118,7 @@ const RegistrarViewCase = () => {
                 <td>
                   <button
                     className="btn btn-primary"
+                    id="viewCaseClick"
                     disabled={disabled}
                     onClick={(e) => {
                       e.preventDefault();

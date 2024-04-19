@@ -120,6 +120,7 @@ const SearchCases = () => {
                   <th>Crime Type</th>
                   <th>Created At</th>
                   <th>Status</th>
+                  <th>Action</th>
                 </tr>
                 {searchResult.map((caseData) => (
                   <tr key={caseData.CIN}>
@@ -127,6 +128,24 @@ const SearchCases = () => {
                     <td>{caseData.crimeType}</td>
                     <td>{caseData.createdAt}</td>
                     <td>{caseData.status}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-primary btn-sm"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          localStorage.setItem("CIN_DISPLAY", caseData.CIN);
+                          if (userType === "registrar")
+                            navigate(`/registrar/case-view`);
+                          else if (userType === "lawyer")
+                            navigate(`/lawyer/view-case`);
+                          else if (userType === "judge")
+                            navigate(`/judge/view-case`);
+                        }}
+                      >
+                        ViewCase
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

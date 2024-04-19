@@ -56,6 +56,33 @@ const JudgeViewCase = () => {
       toast.error("Error Fetching Case Details");
     }
   };
+  const handleClickNew = async (cin) => {
+    try {
+      const dataToSend = {
+        CIN: cin,
+        loginToken: loginToken,
+      };
+      const response = await judgeCaseView(dataToSend);
+      toast.success("Case Details Fetched Successfully");
+      setCaseDetails(response);
+      const isCaseSeen = caseSeen.find((item) => item.CIN === CIN);
+      if (!isCaseSeen) {
+        dispatch(addCasesSeen({ CIN: CIN, _id: response._id }));
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error Fetching Case Details");
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("CIN_DISPLAY")) {
+      const temp = localStorage.getItem("CIN_DISPLAY");
+      setCIN((prev) => temp);
+      localStorage.removeItem("CIN_DISPLAY");
+      handleClickNew(temp);
+    }
+  }, []);
 
   return (
     <>
@@ -91,6 +118,7 @@ const JudgeViewCase = () => {
                     id="CIN"
                     name="CIN"
                     className="input-text"
+                    value={CIN}
                     onChange={(e) => {
                       setCIN((prev) => e.target.value);
                     }}

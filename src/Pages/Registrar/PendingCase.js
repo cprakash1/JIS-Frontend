@@ -120,11 +120,24 @@ const PendingCase = () => {
                 <tr key={"hello"}>
                   <th>CIN</th>
                   <th>Case Status</th>
+                  <th>Action</th>
                 </tr>
                 {pendingCases.map((item) => (
                   <tr key={item._id}>
                     <td>{item.CIN}</td>
                     <td>{item.status}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => {
+                          localStorage.setItem("CIN_DISPLAY", item.CIN);
+                          navigate(`/registrar/case-view`);
+                        }}
+                      >
+                        View
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

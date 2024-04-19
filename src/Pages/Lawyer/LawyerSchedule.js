@@ -57,6 +57,7 @@ const LawyerSchedule = () => {
                 <th scope="col">Case ID</th>
                 <th scope="col">Date</th>
                 <th scope="col">Time</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -70,6 +71,19 @@ const LawyerSchedule = () => {
                   <td>{schedule?.case?.CIN}</td>
                   <td>{DateLiberary.displayDate(schedule.dateTime)}</td>
                   <td>{DateLiberary.displayTime(schedule.dateTime)}</td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        localStorage.setItem("CIN_DISPLAY", schedule.case.CIN);
+                        navigate(`/lawyer/view-case`);
+                      }}
+                    >
+                      ViewCase
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

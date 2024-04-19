@@ -124,10 +124,24 @@ const ResolvedCases = () => {
               <tbody>
                 <tr>
                   <th>CIN</th>
+                  <th>Action</th>
                 </tr>
                 {resolvedCasesData.map((item) => (
                   <tr key={item._id}>
                     <td>{item.CIN}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          localStorage.setItem("CIN_DISPLAY", item.CIN);
+                          navigate(`/registrar/case-view`);
+                        }}
+                      >
+                        ViewCase
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
