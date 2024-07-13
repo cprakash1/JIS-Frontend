@@ -1,11 +1,11 @@
 ## HI There 👋, This is our Group Project Software Engineering Lab In which we have to make a website to manage Judiciary Information System
 
 ## Group Members
-- Anil Budamakuntla
 - Chandra Prakash
-- Chenreddy Sumana
-- Budamakuntla Anil
 - Chahat Jain
+- Anil Budamakuntla
+- Chenreddy Sumana
+-Bommisetty Sai Anvith
   
 ## TA Assigned
 - Mr. Rahul Sir
@@ -26,7 +26,7 @@ The lawyers and the judges need to refer to the past court cases. The lawyers  n
 - Frontend: ReactJS
 - Backend: NodeJS
 - Database: MongoDB
-- Hosting: Backend on Render and Frontend on Netlify
+- Hosting: Backend and Frontend on Render
   
 
 
@@ -34,7 +34,7 @@ The lawyers and the judges need to refer to the past court cases. The lawyers  n
 
 - Open the terminal
 - Change the current working directory to the location where you want the cloned directory
-- Type `git clone https://github.com/ANIL-BUDAMAKUNTLA/temp.git`
+- Type `git clone https://github.com/cprakash1/JIS-Frontend.git`
 - Press Enter to create a local clone of the repository
 
 ## create .env file in the root directory and add the following code
@@ -47,8 +47,7 @@ Run the following command in the terminal
 - `npm install`
 - `npm start`
 
-## This is only the frontend part of the project. The backend part of the project is in the following repository which is also made by our group members which is hosted on Render - [Backend Repository](https://github.com/cprakash1/temperary.git)
+## This is only the frontend part of the project. The backend part of the project is in the following repository which is also made by our group members which is hosted on Render - [Backend Repository](https://github.com/cprakash1/JIS_Backend.git)
 
-## The website is hosted on Netlify - [Website Link](https://jisgroup11.netlify.app/)
+## The website is hosted on Render - [Website Link](https://jis-frontend.onrender.com)
 
-## I Will Soon Add Documentation for SRS.
